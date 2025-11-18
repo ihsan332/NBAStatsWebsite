@@ -6,7 +6,7 @@ import csv
 
 # Create your views here.
 
-def standings(request):
+def standingsimport(request):
     api_key = "https://api.sportsdata.io/v3/nba/scores/json/Standings/2024?key=1b9cfb5bc09046c08d3b333f59f1f419"
     
     api = requests.get(api_key).json()

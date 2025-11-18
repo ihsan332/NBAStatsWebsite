@@ -6,13 +6,13 @@
 <body>
     <h1>Welcome to the Site</h1>
     
-    {% if user.is_authenticated %}
-        <p>Hello {{ user.username }}! Your role: {{ role }}</p>
-        <a href="{% url 'logout' %}">Logout</a>
-    {% else %}
-        <p>You are a {{ role }}</p>
-        <a href="{% url 'login' %}">Login</a>
-    {% endif %}
+    <a href="{% url 'login' %}">Login</a>
+    <a href="{% url 'logout' %}">Logout</a>
+    <a href="{% url 'findplayer' %}">Find a Player</a>
+    <a href="{% url 'findteam' %}">Find a Team</a>
+    <a href="{% url 'standings' %}">Standings</a>
+    <a href="{% url 'schedule' %}">Schedule</a>
+
 </body>
 </html>
 

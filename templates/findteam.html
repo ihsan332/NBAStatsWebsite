@@ -7,9 +7,13 @@
 </head>
 <body id="background">
 <h1 id="table-header">Team List</h1>
+
+<input type="text" id="searchInput" placeholder="Search teams..." onkeyup="filterTable()">
+
 <button id="button1" onclick="sortTable(0)">Sort by Name</button>
 <button id="button2" onclick="sortTable(1)">Sort by City</button>
 <button id="button3" onclick="sortTable(2)">Sort by Conference</button>
+
 <table id="table">
     <tr id="row-header">
         <th> Team </th>
@@ -23,7 +27,7 @@
         <td>{{team.conference}}</td>
     </tr>
     {% endfor %}
-
+</table>
 <script>    
 function displayTeam(teamId) {
     window.location.href = `/team/${teamId}/`;
@@ -33,14 +37,37 @@ function sortTable(columnIndex) {
     const rows = Array.from(table.rows).slice(1); 
     
     rows.sort((a, b) => {
-        const aText = a.cells[columnIndex].textContent();
-        const bText = b.cells[columnIndex].textContent();
+        const aText = a.cells[columnIndex].textContent;
+        const bText = b.cells[columnIndex].textContent;
         return aText.localeCompare(bText);
     });
     
     rows.forEach(row => table.appendChild(row));
 }
+function filterTable() {
+    const input = document.getElementById('searchInput');
+    const filter = input.value.toLowerCase();
+    const table = document.getElementById('table');
+    const rows = table.getElementsByTagName('tr');
+
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        let match = false;
+
+        for (let j = 0; j < cells.length; j++) {
+            const cell = cells[j];
+            if (cell) {
+                const cellText = cell.textContent || cell.innerText;
+                if (cellText.toLowerCase().indexOf(filter) > -1) {
+                    match = true;
+                    break;
+                }
+            }
+        }
+
+        rows[i].style.display = match ? '' : 'none';
+    }
+}
 </script>
-</table>
 </body>
 </html>

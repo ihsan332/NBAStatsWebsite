@@ -5,8 +5,12 @@
     <title>{{player.fname}} {{player.lname}}</title>
 </head>
 <body>
-<h1 id="table-header">{{player.fname}} {{player.lname}}</h1>
+<h1 id="table-header">{{player.fname}} {{player.lname}}</h1>    
+<button onclick="deletePlayer()" style="background: red; color: white;">Delete Player</button>
+<button onclick="editHeadshot()" style="background: rgb(203, 230, 197); color: rgb(0, 0, 0);">Edit Headshot</button>
+
 <img id="headshot" src="{{headshot.headshot}}">
+
 
 <canvas id="ShotDistribution" width="400" height="200"></canvas>
 <canvas id="StatDistribution" width="400" height="200"></canvas>
@@ -106,6 +110,61 @@ new Chart(document.getElementById('OffenseDefense'), {
 });
 
 
+function deletePlayer() {
+    if (confirm('Are you sure you want to delete this player?')) {
+        const playerId = {{ player.player_id }};
+        
+        fetch(`player/${playerId}/delete/`, {
+            method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'deleted') {
+                alert('Player deleted!');
+                window.location.href = '/';  // Redirect to home
+            }
+        });
+    }
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
+function editHeadshot() {
+    const newHeadshotUrl = prompt('Enter new headshot URL:');
+    if (newHeadshotUrl) {
+        const playerId = {{ player.player_id }};
+        
+        fetch(`update_headshot/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify({ headshot: newHeadshotUrl }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'updated') {
+                alert('Headshot updated!');
+                document.getElementById('headshot').src = newHeadshotUrl;
+            }
+        });
+    }
+}
 </script>
 </body>
 </html>

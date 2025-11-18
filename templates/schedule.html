@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NBA Schedule</title>
+    <link rel="stylesheet" href="{% static 'catalog/search.css' %}">
+</head>
+<body>
+    <h1>NBA Schedule</h1>
+    <table id="table">
+        <tr id="row-header">
+            <th>Date</th>
+            <th>Away Team</th>
+            <th>Home Team</th>
+            <th>Score</th>
+        </tr>
+        {% for item in schedule_data %}
+        <tr class="row-entry">
+            <td>{{ item.game.date_time|date:"M d, Y" }}</td>
+            <td>
+                <img src="{{ item.away_team.logo }}" height="30" width="30">
+                {{ item.away_team.name }}
+            </td>
+            <td>
+                <img src="{{ item.home_team.logo }}" height="30" width="30">
+                {{ item.home_team.name }}
+            </td>
+            <td>
+                {{ item.game.away_team_score }} - {{ item.game.home_team_score }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

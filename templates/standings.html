@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NBA Standings</title>
+    <link rel="stylesheet" href="{% static 'catalog/search.css' %}">
+</head>
+<body>
+    <h1>NBA Standings</h1>
+    <table id="table">
+        <tr id="row-header">
+            <th>Rank</th>
+            <th>Team</th>
+            <th>Wins</th>
+            <th>Losses</th>
+            <th>Conference</th>
+        </tr>
+        {% for standing in standing %}
+        <tr class="row-entry">
+            <td>{{ forloop.counter }}</td>
+            <td>{{ standing.fname }}</td>
+            <td>{{ standing.wins }}</td>
+            <td>{{ standing.losses }}</td>
+            <td>{{ standing.conference }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -8,8 +8,8 @@ roles = [
         ('guest', 'Guest'),
     ]
 
-class UserType(models.Model):
 
+class UserType(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    role = models.CharField(max_length=10, choices=roles, default='user')
+    role = models.CharField(max_length=10, choices=roles, default='guest')
 

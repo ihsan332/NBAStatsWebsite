@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{team.name}}</title>
+</head>
+<body>
+<h1 id="table-header">{{team.name}}</h1>
+<img id="logo" src="{{team.logo}}">
+
+<canvas id="WinLoss" width="400" height="200"></canvas>
+<canvas id="HomeAway" width="400" height="200"></canvas>
+<canvas id="ShootingEfficiency" width="400" height="200"></canvas>
+<canvas id="SeasonTotals" width="400" height="200"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+new Chart(document.getElementById('WinLoss'), {
+    type: 'bar',
+    data: {
+        labels: ['Wins', 'Losses'],
+
+        datasets: [{label: 'Games', data: [{{standing.wins}}, {{standing.losses}}]}]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Wins vs Losses'}}}  
+});
+
+
+new Chart(document.getElementById('HomeAway'), {
+    type: 'bar',
+    data: {
+        labels: ['Home Wins', 'Home Losses', 'Away Wins', 'Away Losses'],
+
+        datasets: [{label: 'Games', data: [{{standing.home_wins}}, {{standing.home_losses}}, {{standing.away_wins}}, {{standing.away_losses}}]}]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Home vs Away Performance'}}}  
+});
+
+
+new Chart(document.getElementById('ShootingEfficiency'), {
+    type: 'radar',  
+    data: {
+        labels: ['FG', '2P', '3P', 'FT'],
+        datasets: [{
+            label: '%', 
+            data: [{{season.fieldpercent}}, {{season.twopercent}}, {{season.threepercent}}, {{season.freepercent}}]
+        }]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Shooting Efficiency Percentages'
+            }
+        },
+        scales: {
+            r: {
+                beginAtZero: true,
+                max: 50  
+            }}}  
+});
+
+new Chart(document.getElementById('SeasonTotals'), {
+    type: 'bar',
+    data: {
+        labels: ['Points', 'Rebounds', 'Assists', 'Steals', 'Blocks'],
+
+        datasets: [{label: 'Count', data: [{{season.points}}, {{season.rebounds}}, {{season.assists}}, {{season.steals}}, {{season.blocks}}]}]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Season Totals'}},
+        scales: {
+            y: {type: 'logarithmic'}}}  
+});
+
+</script>
+</body>
+</html>

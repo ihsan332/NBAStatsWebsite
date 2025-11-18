@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{player.fname}} {{player.lname}}</title>
+</head>
+<body>
+<h1 id="table-header">{{player.fname}} {{player.lname}}</h1>
+<img id="headshot" src="{{headshot.headshot}}">
+
+<canvas id="ShotDistribution" width="400" height="200"></canvas>
+<canvas id="StatDistribution" width="400" height="200"></canvas>
+<canvas id="ShotEfficiency" width="400" height="200"></canvas>
+<canvas id="GameAverages" width="400" height="200"></canvas>
+<canvas id="OffenseDefense" width="400" height="200"></canvas>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const ppg = {{season.games}} > 0 ? {{season.points}} / {{season.games}} : 0;
+const rpg = {{season.rebounds}} / {{season.games}};
+const apg = {{season.assists}} / {{season.games}};
+const spg = {{season.steals}} / {{season.games}};
+const bpg = {{season.blocks}} / {{season.games}};
+
+const offensescore = {{season.fieldgoals}} + {{season.assists}};
+const defensescore = {{season.steals}} + {{season.blocks}} + {{season.rebounds}} + {{season.freegoals}};
+
+new Chart(document.getElementById('ShotDistribution'), {
+    type: 'bar',
+    data: {
+        labels: ['Two Pointers', 'Three Pointers', 'Free Throws'],
+
+        datasets: [{label: 'Shots Made', data: [{{season.twogoals}}, {{season.threegoals}}, {{season.freegoals}}]}]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Shooting Distribution'}}}  
+});
+
+
+new Chart(document.getElementById('StatDistribution'), {
+    type: 'bar',
+    data: {
+        labels: ['Points', 'Rebounds', 'Assists', 'Steals', 'Blocks'],
+
+        datasets: [{label: 'Count', data: [{{season.points}}, {{season.rebounds}}, {{season.assists}}, {{season.steals}}, {{season.blocks}}]}]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Season Totals'}},
+        scales: {
+            y: {type: 'logarithmic'}}}  
+});
+
+new Chart(document.getElementById('ShotEfficiency'), {
+    type: 'radar',
+    data: {
+        labels: ['2P%', '3P%', 'FT%'],
+
+        datasets: [{label: 'Percent', data: [{{season.twopercent}}, {{season.threepercent}}, {{season.freepercent}}]}]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Shooting Efficiency (%)'}},
+        scales: {
+            r: {beginAtZero: true, min: 0, max: 100}}}  
+});
+
+
+new Chart(document.getElementById('GameAverages'), {
+    type: 'bar',
+    data: {
+        labels: ['Points', 'Rebounds', 'Assists', 'Steals', 'Blocks'],
+
+        datasets: [{label: 'Average Per Game', data: [ppg, rpg, apg, spg, bpg]}]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Game Averages'}}}  
+});
+
+
+new Chart(document.getElementById('OffenseDefense'), {
+    type: 'bar',
+    data: {
+        labels: ['Offense Score', 'Defense Score'],
+
+        datasets: [{label: 'Score', data: [offensescore, defensescore]}]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Offense vs Defense Score'}}}  
+});
+
+
+</script>
+</body>
+</html>

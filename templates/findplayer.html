@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Find a Player</title>
+    <link rel="stylesheet" href="{% static 'catalog/search.css'%}">
+</head>
+<body>
+    <h1 id="table-header">Player List</h1>
+<table id="table">
+    <tr id="row-header">
+        <th> First Name </th>
+        <th> Last Name </th>
+        <th> Team </th>
+        <th> Position </th>
+    </tr>
+    {% for player in Players %}
+    <tr class="row-entry" onclick="displayPlayer({{player.player_id}})"> 
+        <td>{{player.fname}}</td>
+        <td>{{player.lname}}</td>
+        <td>{{player.team}}</td>
+        <td>{{player.position}}</td>
+    </tr>
+    {% endfor %}
+
+<script>
+function displayPlayer(playerId) {
+    window.location.href = `/player/${playerId}/`;
+}
+
+
+</script>
+</table>
+</body>
+</html>

@@ -3,20 +3,23 @@
 <html>
 <head>
     <title>{{player.fname}} {{player.lname}}</title>
+    <link rel="stylesheet" href="{% static 'catalog/display.css'%}">
 </head>
 <body>
-<h1 id="table-header">{{player.fname}} {{player.lname}}</h1>    
+<h1 id="table-header">{{player.fname}} {{player.lname}}</h1>   
+
+{% if userRole == 'admin' %}
 <button onclick="deletePlayer()" style="background: red; color: white;">Delete Player</button>
 <button onclick="editHeadshot()" style="background: rgb(203, 230, 197); color: rgb(0, 0, 0);">Edit Headshot</button>
-
+{% endif %}
 <img id="headshot" src="{{headshot.headshot}}">
 
 
-<canvas id="ShotDistribution" width="400" height="200"></canvas>
-<canvas id="StatDistribution" width="400" height="200"></canvas>
-<canvas id="ShotEfficiency" width="400" height="200"></canvas>
-<canvas id="GameAverages" width="400" height="200"></canvas>
-<canvas id="OffenseDefense" width="400" height="200"></canvas>
+<canvas id="ShotDistribution"></canvas>
+<canvas id="StatDistribution"></canvas>
+<canvas id="ShotEfficiency"></canvas>
+<canvas id="GameAverages"></canvas>
+<canvas id="OffenseDefense"></canvas>
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -59,9 +62,13 @@ new Chart(document.getElementById('StatDistribution'), {
             title: {
                 display: true,
                 text: 'Season Totals'}},
+                font: {
+                    size: 26
+                },
         scales: {
             y: {type: 'logarithmic'}}}  
 });
+
 
 new Chart(document.getElementById('ShotEfficiency'), {
     type: 'radar',
@@ -114,14 +121,17 @@ function deletePlayer() {
     if (confirm('Are you sure you want to delete this player?')) {
         const playerId = {{ player.player_id }};
         
-        fetch(`player/${playerId}/delete/`, {
+        fetch(`delete/`, {
             method: 'DELETE',
+            headers: {
+                'X-CSRFToken': csrftoken,
+            },
         })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'deleted') {
                 alert('Player deleted!');
-                window.location.href = '/';  // Redirect to home
+                window.location.href = '/';  
             }
         });
     }

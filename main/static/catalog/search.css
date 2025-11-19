@@ -1,9 +1,12 @@
 body {
     background-color: #8889d3; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #table-header {
-    color: rgb(207, 202, 125);
+    color: rgb(253, 255, 145);
     text-align: center;
     font-size: 4.5em;
     margin-top: 5%;
@@ -31,7 +34,7 @@ body {
 }
 
 .row-entry {
-    background-color: rgb(176, 180, 110);
+    background-color: rgb(253, 255, 145);
 }
 
 .row-entry td {
@@ -43,4 +46,43 @@ body {
     background-color: #b3b8eb;
     transition-duration: 490ms;
     cursor:pointer;
+}
+
+#searchInput {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: 2px solid #e1bee7;
+    border-radius: 25px;
+    width: 300px;
+    margin: 20px auto;
+    display: block;
+    background: #f8f8f8;
+    text-align: center;
+}
+
+#searchInput:focus {
+    outline: none;
+    border-color: #ce93d8;
+    background: white;
+}
+
+button {
+    justify-content: center !important;  
+    gap: 15px !important;
+    display: inline-block;
+    margin: 0 10px;
+}
+
+#button1, #button2, #button3 {
+    background: #e1bee7;
+    color: #5d4037;
+    border: 2px solid #ce93d8;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#button1:hover, #button2:hover, #button3:hover {
+    background: #f0f4c3;
 }

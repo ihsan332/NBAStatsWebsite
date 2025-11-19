@@ -1,0 +1,14 @@
+body {
+    background: #927397;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 40px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+

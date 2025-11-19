@@ -1,17 +1,33 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Home</title>
+    <link rel="stylesheet" href="{% static 'catalog/home.css'%}">
 </head>
 <body>
-    <h1>Welcome to the Site</h1>
-    
+    <h1 style="text-transform: capitalize;" >NBA Database - {{ userRole }}</h1>
     <a href="{% url 'login' %}">Login</a>
-    <a href="{% url 'logout' %}">Logout</a>
+    <a href="#" onclick="logout()">Logout</a>
+     {% if userRole == 'user' or userRole == 'admin' %}
     <a href="{% url 'findplayer' %}">Find a Player</a>
     <a href="{% url 'findteam' %}">Find a Team</a>
+    {% endif %}
     <a href="{% url 'standings' %}">Standings</a>
     <a href="{% url 'schedule' %}">Schedule</a>
+
+<script>
+function logout() {
+    fetch("{% url 'logout' %}", {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+    }).then(() => {
+        window.location.href = "{% url 'home' %}";  
+    });
+}
+</script>
 
 </body>
 </html>

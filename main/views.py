@@ -10,7 +10,7 @@ def home(request):
             try:
                 userRole = request.user.usertype.role
             except: 
-                userRole = 'user'  
+                userRole = 'guest'  
         else:
             userRole = 'guest'
         return render(request, 'home.html', {'userRole': userRole})
@@ -44,11 +44,11 @@ def displayplayer(request, player_id):
             except: 
                 userRole = 'user' 
         else:
-            userRole = 'guest'
-            player = ActivePlayer.objects.get(player_id=player_id)
-            headshot = Headshot.objects.get(player_id=player.player_id)
-            season = PlayerSeason.objects.get(player_id=player.player_id)
-            return render(request, 'displayplayer.html', {'player':player, 'headshot':headshot, 'season':season, 'userRole': userRole})    
+                userRole = 'guest'
+        player = ActivePlayer.objects.get(player_id=player_id)
+        headshot = Headshot.objects.get(player_id=player.player_id)
+        season = PlayerSeason.objects.get(player_id=player.player_id)
+        return render(request, 'displayplayer.html', {'player':player, 'headshot':headshot, 'season':season, 'userRole': userRole})    
 
 def displayteam(request, team_id):
         if request.user.is_authenticated:
@@ -58,9 +58,9 @@ def displayteam(request, team_id):
                 userRole = 'user' 
         else:
             userRole = 'guest'
-        team = ActiveTeams.objects.get(team_id=team_id)
-        standing = Standings.objects.get(team_id=team.team_id, season=2024)
-        season = TeamSeason.objects.get(team_id=team.team_id, season=2024)
+        team = ActiveTeams.objects.filter(team_id=team_id).first()
+        standing = Standings.objects.filter(team_id=team.team_id, season=2024).first()  
+        season = TeamSeason.objects.filter(team_id=team.team_id, season=2024).first()
         return render(request, 'displayteam.html', {'team':team, 'season':season, 'standing':standing, 'userRole': userRole})
     
     

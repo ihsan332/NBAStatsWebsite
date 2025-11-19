@@ -1,0 +1,35 @@
+body {
+    background: #927397;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 40px;
+}
+
+h1 {
+    color: #6a1b9a;
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 2%;
+}
+
+a {
+    display: block;
+    background: #e1bee7;
+    color: #5d4037;
+    padding: 15px 25px;
+    margin: 10px auto;
+    border-radius: 25px;
+    text-align: center;
+    font-size: 1.2em;
+    width: 200px;
+}
+
+a:hover {
+    background: #f0f4c3;
+    color: #8c659c;
+}
+
+a:active {
+    transform: translateY(-1px);
+}
+

@@ -3,15 +3,16 @@
 <html>
 <head>
     <title>{{team.name}}</title>
+    <link rel="stylesheet" href="{% static 'catalog/display.css'%}">
 </head>
 <body>
 <h1 id="table-header">{{team.name}}</h1>
-<img id="logo" src="{{team.logo}}">
+<img id="headshot" src="{{team.logo}}">
 
-<canvas id="WinLoss" width="400" height="200"></canvas>
-<canvas id="HomeAway" width="400" height="200"></canvas>
-<canvas id="ShootingEfficiency" width="400" height="200"></canvas>
-<canvas id="SeasonTotals" width="400" height="200"></canvas>
+<canvas id="WinLoss"></canvas>
+<canvas id="HomeAway"></canvas>
+<canvas id="ShootingEfficiency"></canvas>
+<canvas id="SeasonTotals"></canvas>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -69,6 +70,7 @@ new Chart(document.getElementById('ShootingEfficiency'), {
                 max: 50  
             }}}  
 });
+
 
 new Chart(document.getElementById('SeasonTotals'), {
     type: 'bar',
